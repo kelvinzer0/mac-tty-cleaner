@@ -32,6 +32,10 @@ jobs:
       with:
         name: tty-cleaner-${{ matrix.go-version }}-${{ matrix.arch }}
         path: ./tty-cleaner  # Corrected the path to the binary
+    - name: Debug Matrix Values
+      run: |
+        echo "go-version: ${{ matrix.go-version }}"
+        echo "arch: ${{ matrix.arch }}"
 
   release:
     needs: build
@@ -53,7 +57,7 @@ jobs:
         release_name: Release ${{ github.run_number }}
         body: |
           Changes in this Release:
-          - Describe your changes here
+          - Release
         draft: false
         prerelease: false
 
