@@ -21,7 +21,7 @@
 ## Installation
 
 ```bash
-git clone https://github.com/yourusername/mac-tty-cleaner.git
+git clone https://github.com/kelvinzer0/mac-tty-cleaner.git
 cd mac-tty-cleaner
 go build -o tty-cleaner ./cmd/mac-tty-cleaner
 ```
