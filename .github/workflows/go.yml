@@ -37,10 +37,6 @@ jobs:
         echo "go-version: ${{ matrix.go-version }}"
         echo "arch: ${{ matrix.arch }}"
 
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
     - name: Download Build Artifact
       uses: actions/download-artifact@v3
       with:
