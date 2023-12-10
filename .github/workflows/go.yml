@@ -5,34 +5,43 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-  release:
-    types: [created]
-
-permissions:
-    contents: write
-    packages: write
 
 jobs:
-  releases-matrix:
-    name: Release Go Binary
-    runs-on: ubuntu-latest
+  build:
+    runs-on: macos-latest
     strategy:
       matrix:
-        goos: [linux, windows, darwin]
-        goarch: ["386", amd64, arm64]
-        exclude:
-          - goarch: "386"
-            goos: darwin
-          - goarch: arm64
-            goos: windows
+        go-version: ['1.21']  # Add more Go versions if needed
+        arch: ['amd64', 'arm64']  # Add more architectures if needed
+
     steps:
-    - uses: actions/checkout@v3
-    - uses: wangyoucao577/go-release-action@v1
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
       with:
-        github_token: ${{ secrets.GO_RELEASER_GITHUB_TOKEN }}
-        goos: ${{ matrix.goos }}
-        goarch: ${{ matrix.goarch }}
-        goversion: "https://dl.google.com/go/go1.13.1.linux-amd64.tar.gz"
-        project_path: "./cmd/mac-tty-cleaner"
-        binary_name: "mac-tty-cleaner"
-        extra_files: LICENSE README.md
+        go-version: ${{ matrix.go-version }}
+        arch: ${{ matrix.arch }}
+
+    - name: Debug Matrix Values
+      run: |
+        echo "go-version: ${{ matrix.go-version }}"
+        echo "arch: ${{ matrix.arch }}"
+
+    - name: Build
+      run: go build -o tty-cleaner ./cmd/mac-tty-cleaner
+
+    - name: Upload Build Artifact (amd64)
+      if: matrix.go-version == '1.21' && matrix.arch == 'amd64'
+      uses: actions/upload-artifact@v3
+      with:
+        name: tty-cleaner-amd64
+        path: ./tty-cleaner
+
+    - name: Upload Build Artifact (arm64)
+      if: matrix.go-version == '1.21' && matrix.arch == 'arm64'
+      uses: actions/upload-artifact@v3
+      with:
+        name: tty-cleaner-arm64
+        path: ./tty-cleaner
