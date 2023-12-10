@@ -11,7 +11,7 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        go-version: ['1.20', '1.21.3']  # Add more Go versions if needed
+        go-version: ['1.21']  # Add more Go versions if needed
         arch: ['amd64', 'arm64']  # Add more architectures if needed
 
     steps:
