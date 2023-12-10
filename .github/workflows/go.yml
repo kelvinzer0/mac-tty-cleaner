@@ -30,7 +30,7 @@ jobs:
         echo "arch: ${{ matrix.arch }}"
 
     - name: Build
-      run: go build -o tty-cleaner ./cmd/mac-tty-cleaner
+      run: go build -o tty-cleaner-${{ matrix.arch }} ./cmd/mac-tty-cleaner
 
     - name: Upload Build Artifact (amd64)
       if: matrix.go-version == '1.21' && matrix.arch == 'amd64'
