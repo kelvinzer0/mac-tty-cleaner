@@ -37,14 +37,14 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: tty-cleaner-amd64
-        path: ./tty-cleaner
+        path: ./tty-cleaner-amd64
 
     - name: Upload Build Artifact (arm64)
       if: matrix.go-version == '1.21' && matrix.arch == 'arm64'
       uses: actions/upload-artifact@v3
       with:
         name: tty-cleaner-arm64
-        path: ./tty-cleaner
+        path: ./tty-cleaner-arm64
 
   release:
     needs: build
