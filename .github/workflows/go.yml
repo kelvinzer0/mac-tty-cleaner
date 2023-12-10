@@ -31,7 +31,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: tty-cleaner-${{ matrix.go-version }}-${{ matrix.arch }}
-        path: tty-cleaner
+        path: ./tty-cleaner  # Corrected the path to the binary
 
   release:
     needs: build
@@ -41,13 +41,13 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: tty-cleaner-${{ matrix.go-version }}-${{ matrix.arch }}
-        path: tty-cleaner
+        path: ./tty-cleaner  # Corrected the path to the binary
 
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GO_RELEASER_GITHUB_TOKEN  }}
+        GITHUB_TOKEN: ${{ secrets.GO_RELEASER_GITHUB_TOKEN }}
       with:
         tag_name: v${{ github.run_number }}
         release_name: Release ${{ github.run_number }}
@@ -63,6 +63,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GO_RELEASER_GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: tty-cleaner
+        asset_path: ./tty-cleaner  # Corrected the path to the binary
         asset_name: tty-cleaner-${{ matrix.go-version }}-${{ matrix.arch }}
         asset_content_type: application/octet-stream
