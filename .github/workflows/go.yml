@@ -1,0 +1,68 @@
+name: Go
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        go-version: ['1.20', '1.21.3']  # Add more Go versions if needed
+        arch: ['amd64', 'arm64']  # Add more architectures if needed
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: ${{ matrix.go-version }}
+        arch: ${{ matrix.arch }}
+
+    - name: Build
+      run: go build -o tty-cleaner ./cmd/mac-tty-cleaner
+
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: tty-cleaner-${{ matrix.go-version }}-${{ matrix.arch }}
+        path: tty-cleaner
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download Build Artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: tty-cleaner-${{ matrix.go-version }}-${{ matrix.arch }}
+        path: tty-cleaner
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GO_RELEASER_GITHUB_TOKEN  }}
+      with:
+        tag_name: v${{ github.run_number }}
+        release_name: Release ${{ github.run_number }}
+        body: |
+          Changes in this Release:
+          - Describe your changes here
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Artifact
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GO_RELEASER_GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: tty-cleaner
+        asset_name: tty-cleaner-${{ matrix.go-version }}-${{ matrix.arch }}
+        asset_content_type: application/octet-stream
