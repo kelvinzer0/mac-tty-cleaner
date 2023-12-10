@@ -8,8 +8,7 @@
 
 ## Features
 
-- Cleans TTY devices in the /dev directory
-- Customizable command execution on each TTY device
+- Cleans TTY devices in the /dev/ttys0* directory
 - Efficient and lightweight design
 
 ## Table of Contents
