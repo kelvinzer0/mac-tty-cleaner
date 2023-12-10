@@ -45,3 +45,32 @@ jobs:
       with:
         name: tty-cleaner-arm64
         path: ./tty-cleaner
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download Build Artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: tty-cleaner-amd64
+        path: tty-cleaner-amd64
+
+    - name: Download Build Artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: tty-cleaner-arm64
+        path: tty-cleaner-arm64
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          ./tty-cleaner-amd64/*
+          ./tty-cleaner-arm64/*
+        tag_name: v${{ github.run_number }}
+        title: Release v${{ github.run_number }}
+        body: |
+          Changes in this Release:
+          - Describe your changes here
+        token: ${{ secrets.GO_RELEASER_GITHUB_TOKEN }}
