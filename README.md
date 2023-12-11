@@ -1,3 +1,6 @@
+<img src="https://github.com/kelvinzer0/DNS369-Storage/blob/main/media-kit/logo-DNS469.png?raw=true" width="100%" style="justify-content: center;align-items: center;"/>
+
+
 # Mac TTY Cleaner
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
