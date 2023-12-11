@@ -27,6 +27,8 @@
 git clone https://github.com/kelvinzer0/mac-tty-cleaner.git
 cd mac-tty-cleaner
 go build -o clears ./cmd/mac-tty-cleaner
+sudo chmod +x ./clears
+sudo mv ./clears /usr/local/bin/clears
 ```
 
 ## Usage
@@ -34,8 +36,7 @@ go build -o clears ./cmd/mac-tty-cleaner
 Run the application:
 
 ```bash
-sudo chmod +x ./clears
-sudo mv ./clears /usr/local/bin/clears
+clears
 ```
 
 ## Contributing
