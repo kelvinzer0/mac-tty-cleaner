@@ -1,4 +1,4 @@
-<img src="https://github.com/kelvinzer0/DNS369-Storage/blob/main/media-kit/logo-DNS469.png?raw=true" width="100%" style="justify-content: center;align-items: center;"/>
+<img src="https://github.com/kelvinzer0/mac-tty-cleaner/blob/main/example.gif?raw=true" width="100%" style="justify-content: center;align-items: center;"/>
 
 
 # Mac TTY Cleaner
